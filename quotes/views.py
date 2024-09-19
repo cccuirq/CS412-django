@@ -15,15 +15,15 @@ quotes = [
     "A person who never made a mistake never tried anything new.",
     "If you can't explain it simply, you don't understand it well enough.",
     "Try not to become a man of success, but rather try to become a man of value.",
-
+    
 ]
 
 images = [
-    'static/einstein1.jpg',
-    'static/einstein2.jpg',
-    'static/einstein3.jpg',
-    'static/einstein4.jpg',
-    'static/einstein5.jpg'
+    '../static/einstein1.jpg',
+    '../static/einstein2.jpg',
+    '../static/einstein3.jpg',
+    '../static/einstein4.jpg',
+    '../static/einstein5.jpg'
 ]
 def home(request):
 
