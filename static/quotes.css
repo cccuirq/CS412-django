@@ -84,6 +84,6 @@ a {
     transition: background-color 0.3s ease;
 }
 
-nav ul li a:hover {
-    background-color: #555;
+a:hover {
+    background-color: #d3cece;
 }
