@@ -1,0 +1,40 @@
+{% extends "restaurant/base.html" %}
+ {% block content %}
+ <h1>Place your order HERE</h1>
+
+ <form action="{% url 'confirmation' %}" method="post">
+    {% csrf_token %}
+    <h3>Choose your pot base:</h3>
+    <div>
+        <input type="checkbox" name="potbase" value="Spicy Mala:15">Spicy Mala $15 <br>
+        <input type="checkbox" name="potbase" value="Clear Broth:10">Clear Broth $10 <br>
+        <input type="checkbox" name="potbase" value="Tomato Broth:12">Tomato Broth $12 <br>
+        <input type="checkbox" name="potbase" value="Mushroom Broth:12">Mushroom Broth $12 <br>
+    </div>
+    <h3>Daily Special pot base:</h3>
+    <input type="radio" name="daily" value="{{ random_potbase }}"> {{ random_potbase }}<br>
+    <h3>Choose your vegetable:</h3>
+    <div>
+        <input type="checkbox" name="vegetables" value="Chinese Cabbage:5">Chinese Cabbage $5 <br>
+        <input type="checkbox" name="vegetables" value="Spinach:5">Spinach $5 <br>
+        <input type="checkbox" name="vegetables" value="Enoki Mushrooms:7">Enoki Mushrooms $7 <br>
+        <input type="checkbox" name="vegetables" value="Shiitake Mushrooms:7">Shiitake Mushrooms $7 <br>
+        <input type="checkbox" name="vegetables" value="potato:6">potato $6 <br>
+    </div>
+    <h3>Choose your meat:</h3>
+    <div>
+        <input type="checkbox" name="beef" value="Beef Slices:8">Beef Slices $8 <br>
+        <input type="checkbox" name="beef" value="Beef Tripe:8">Beef Tripe $8 <br>
+        <input type="checkbox" name="beef" value="Shrimp:10">Shrimp $10 <br>
+        <input type="checkbox" name="beef" value="Beef Tongue:10">Beef Tongue $10 <br>
+    </div>
+    <h3>Special instructions</h3>
+    Please share any special instructions:<br><textarea name="special" rows="3" cols="60"></textarea>
+    <h3>Customer information</h3>
+    Name: <input type="text" name="name"><br>
+    Phone: <input type="text" name="phone"><br>
+    Email: <input type="text" name="email"><br>
+    <h3>Place your order!</h3>
+    <input type="submit">
+ </form>
+ {% endblock %}

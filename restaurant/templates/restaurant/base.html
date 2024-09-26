@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>Quotes</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <a href="{% url 'main' %}">Welcome Page</a>
+            <a href="{% url 'order' %}">Order Here</a>
+        </ul>
+    </nav>
+     {% block content %}
+     <!-- put the intersting (specific stuff) here -->
+     {% endblock %}
+
+     <hr>
+     Page created by ccryscui@bu.edu <br>
+     this page was generated at {{current_time}}.
+</body>
+</html>

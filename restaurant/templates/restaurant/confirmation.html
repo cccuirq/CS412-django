@@ -1,0 +1,50 @@
+{% extends "restaurant/base.html" %}
+ {% block content %}
+ <h1>Confirmation</h1>
+ <h3>Thank you for ordering!</h3>
+ <p>belows are informations about your order.</p>
+ 
+ {% if pot_base or daily_name %}
+    <h3>HotPot Base:</h3>
+    {% if pot_base %}
+        {{ pot_base|join:", " }} <br>
+    {% else %}
+        <div></div>
+    {% endif %}
+    {% if daily_name %}
+        {{ daily_name }} <br>
+    {% else %}
+        <div></div>
+    {% endif %}
+{% endif %}
+
+{% if vegetables %}
+    <h3>Vegetables:</h3>
+    {{ vegetables|join:", " }} <br>
+{% else %}
+    <div></div>
+{% endif %}
+
+{% if meat %}
+    <h3>Meat:</h3>
+    {{ meat|join:", " }} <br>
+{% else %}
+    <div></div>
+{% endif %}
+
+<h3>Total Price:</h3>
+${{total}}
+
+{% if special %}
+    <h3>Special Instructions</h3>
+    {{special}} <br>
+{% endif %}
+
+<h3>Customer Information:</h3>
+{{name}} <br>
+{{phone}} <br>
+{{email}} <br>
+
+<h3>Expected Finish Time:</h3>
+{{finish_time}}
+ {% endblock %}

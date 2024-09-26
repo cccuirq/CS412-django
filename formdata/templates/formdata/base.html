@@ -1,0 +1,21 @@
+<!-- hw/templates/hw/base.html
+ this is base page from which all other pages will inherit
+ put common code here, specific code in seperate pages -->
+ {% load static %}
+<html>
+<head>
+    <title>Form data</title>
+    <!-- <link rel="stylesheet" href="/static/styles.css"> -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+     {% block content %}
+     <!-- put the intersting (specific stuff) here -->
+     {% endblock %}
+
+     <!-- <hr>
+     this page was generated at {{current_time}}. -->
+</body>
+
+</html>
