@@ -16,11 +16,6 @@ p {
     font-size:medium;
 }
 
-
-div {
-    margin-top: 30px;
-}
-
 form {
     align-items: center;
 }
@@ -114,4 +109,71 @@ nav a {
 /* Hover effect */
 nav a:hover {
     color: #ece9bc;
+}
+
+.profile-table-container {
+    margin: 20px auto;
+    width: 80%;
+    margin-top: 50px;
+}
+
+.profile-table {
+    width: 100%;
+    background-color: white;
+    border-spacing: 0;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.profile-table th {
+    padding: 15px;
+    text-align:center;
+    border-bottom: 1px solid #ddd;
+    background-color: #f4f4f4;
+    font-size:larger;
+}
+
+.profile-table td {
+    padding: 15px;
+    text-align: center;  
+    font-size: larger;
+    vertical-align: middle;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Image styling */
+.image-container {
+    margin: 0 auto;
+    position:relative;
+    justify-content: center; 
+    display:flex;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out; /* Smooth transition */
+}
+
+.profile-image:hover {
+    transform: scale(1.1); /* Slight zoom on hover */
+}
+/* Table row hover effect */
+.profile-table tr {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.profile-table tr:hover {
+    background-color: #fafafa;
 }

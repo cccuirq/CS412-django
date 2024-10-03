@@ -1,0 +1,32 @@
+{% extends 'mini_fib/base.html' %}
+{% block content %}
+<h1>Friends Profile</h1>
+
+<div class="profile-table-container">
+    <table class="profile-table">
+        <thead>
+            <tr>
+                <th>Profile Image</th>
+                <th>Name</th>
+                <th>City</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in profiles %}
+            <tr>
+                <td>
+                    <div class="image-container">
+                        <img src="{{ p.profile_image_url }}" alt="Profile Image" class="profile-image">
+                    </div>
+                </td>
+                <td>{{ p.first_name }} {{ p.last_name }}</td>
+                <td>{{ p.city }}</td>
+                <td>{{ p.email_address }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

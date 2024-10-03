@@ -1,22 +1,21 @@
 {% load static %}
 <html>
 <head>
-    <title>Quotes</title>
+    <title>CC FaceBook</title>
     <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
     <nav>
         <ul>
-            <a href="{% url 'main' %}">Welcome Page</a>
-            <a href="{% url 'order' %}">Order Here</a>
+            <a href="{% url 'show_all_profiles' %}">Friends</a>
         </ul>
     </nav>
      {% block content %}
      <!-- put the intersting (specific stuff) here -->
      {% endblock %}
 
-     <hr>
-     Page created by ccryscui@bu.edu <br>
-     this page was generated at {{current_time}}.
+     <footer class="footer">
+        <p>&copy; Page created by ccryscui@bu.edu</p>
+    </footer>
 </body>
 </html>
