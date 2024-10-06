@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "formdata",
     "restaurant",
     "blog",
-    "mini_fib",
+    "mini_fb",
 ]
 
 MIDDLEWARE = [
