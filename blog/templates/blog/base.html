@@ -2,9 +2,15 @@
 <html>
 <head>
     <title>our blog</title>
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
+    <nav>
+        <ul>
+            <a href="{% url 'show_all' %}" >Show all</a>
+            <a href="{% url 'random' %}" >Random</a>
+        </ul>
+    </nav>
      {% block content %}
      <!-- put the intersting (specific stuff) here -->
      {% endblock %}

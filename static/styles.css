@@ -59,6 +59,9 @@ td:first-child {
     margin-bottom: 30px;
 }
 
+.container a{
+    flex: 1;
+}
 .container img {
     margin-right: 20px; /* Adds space between image and text */
 }
@@ -93,7 +96,6 @@ nav {
     padding: 15px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%;
     margin: 0 auto;
 }
 
@@ -108,6 +110,18 @@ nav a {
 
 /* Hover effect */
 nav a:hover {
+    color: #ece9bc;
+}
+
+a{
+    text-decoration: none; 
+    color: #494949; 
+    font-size:larger;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+a:hover {
     color: #ece9bc;
 }
 
@@ -176,4 +190,121 @@ nav a:hover {
 
 .profile-table tr:hover {
     background-color: #fafafa;
+}
+
+.button {
+    margin-top: 20px;
+    margin-left: 45%;
+}
+
+.button td{
+    text-align: center;
+}
+
+/* personal_profile */
+.personal {
+    margin: 30 auto;
+    padding: 20px;
+    background-color: white; 
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.personal img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 5px solid #ece9bc;
+}
+
+.personal h2 {
+    font-size: 1.8em;
+    color: #494949;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.personal h4 {
+    font-size: 1.2em;
+    color: #666; 
+    margin-bottom: 8px;
+}
+
+.personal img:hover {
+    transform: scale(1.05); 
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Main container for status messages */
+.status-message-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: 'Arial', sans-serif;
+    text-align: left;
+}
+
+
+.status-message-container h2 {
+    font-size: 1.8em;
+    color: #333;
+    text-align: left; 
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Individual message styling */
+.status-message {
+    display: inline-block;
+    padding: 15px;
+    background-color: #ece9bc;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    max-width: 80%;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word;
+}
+
+.status-message p {
+    font-size: 1.1em;
+    color: #333;
+    margin: 0;
+    line-height: 1.4em;
+}
+
+
+.status-message .timestamp {
+    font-size: 0.9em;
+    color: #888;
+    text-align: right;
+    margin-top: 8px;
+}
+
+.status-message:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #ece9bc transparent transparent;
+    top: 10px;
+    left: -10px;
+}
+
+
+.status-message.alt {
+    background-color: #d1e7dd;
+    border-color: #d1e7dd;
+    float: right;
+}
+
+.status-message.alt:after {
+    border-color: transparent transparent transparent #d1e7dd;
+    right: -10px;
+    left: auto;
 }

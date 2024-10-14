@@ -1,0 +1,39 @@
+<!-- blog/templates/blog/show_all.html -->
+ {% extends 'blog/base.html' %}
+ {% block content %}
+ <h1>showing one article</h1>
+
+ <!-- print out the context variable called articles -->
+ <!-- {{articles}} -->
+  <div>
+    
+    <article>
+      <div>
+          <h2>{{article.title}}</h2>
+          <h3>by {{article.author}} at {{article.published}}</h3>
+          <p>
+              {{article.text}}
+          </p>
+          <img src="{{article.image_url}}" alt="img">
+          <h3><a href="{% url 'create_comment' article.pk %}">Create a comment</a></h3>
+      </div>
+    </article>
+    
+    <div>
+      <h2>Comments</h2>
+        <!-- caal the articles get_comments() method -->
+      {% if article.get_comments %}
+      {% for c in article.get_comments %}
+      <div>
+        <h3>by {{c.author}} and {{c.published}}</h3>
+        <p>{{c.text}}</p>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div>
+        no comments
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endblock %}

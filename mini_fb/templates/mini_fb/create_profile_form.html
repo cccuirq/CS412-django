@@ -1,0 +1,21 @@
+{% extends 'mini_fb/base.html' %}
+{% block content %}
+<h1>Add a new friends</h1>
+<form method = 'POST' >
+    {% csrf_token %}
+    <div class="profile-table-container">
+        <table class="profile-table">
+            {{form.as_table}}
+        </table>
+        <table class="button">
+            <td>
+                <input type='submit' name = 'Add Friends!' value= 'Add Friends!'>
+            </form>
+                <form action="{% url 'show_all_profiles'%}">
+                    <input type="submit" name = "Cancel" value = "Cancel">
+                </form>
+            </td>
+        </table>
+    </div>
+</form>
+{% endblock %}
