@@ -1,0 +1,20 @@
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+    <h1>Delete This Image?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <img src="{{ image.image_file.url }}" alt="Image" style="max-width: 300px;">
+        </div>
+        <table class="button">
+            <td>
+                <input type='submit' name = 'Delete!' value= 'Delete!'>
+            </form>
+                <form action="{% url 'update_status' image.status_message.pk %}">
+                    <input type="submit" name = "Cancel" value = "Cancel">
+                </form>
+            </td>
+        </table>
+    </form>
+{% endblock %}

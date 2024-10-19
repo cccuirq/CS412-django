@@ -308,3 +308,31 @@ a:hover {
     right: -10px;
     left: auto;
 }
+
+.status-message img {
+    max-width: 500px; 
+    max-height: 500px;
+    height: auto;
+    display: block;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: 2px solid #d3d3d3;
+}
+
+.status-message a {
+    text-decoration: none;
+    color: #494949;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-right: 10px;
+    font-size: 1em;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.status-message a:hover {
+    background-color: #ece9bc;
+}

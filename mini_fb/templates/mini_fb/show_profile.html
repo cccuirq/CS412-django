@@ -10,7 +10,8 @@
     <h4>{{profile.city}}</h4>
 </div>
 <div class="container">
-    <a href="{% url 'create_status' profile.pk %}"><h2>Click here to Add Status Message</h2></a>
+    <a href="{% url 'update_profile' profile.pk %}"> <h2>Update Profile</h2></a>
+    <a href="{% url 'create_status' profile.pk %}"><h2>Add Status Message</h2></a>
 </div>
 <div class="status-message-container">
     <h2>Status Message</h2>
@@ -19,7 +20,16 @@
         {% for c in profile.get_status_messages %}
         <div class="status-message">
             <p>{{c.message}}</p>
+            {% if c.get_images %}
+                {% for img in c.get_images %}
+                    <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}'>
+                {% endfor %}
+            {% endif %}
             <p class="timestamp">{{c.timestamp}}</p>
+            <div>
+                <a href="{% url 'update_status' c.pk %}">Update</a>
+                <a href="{% url 'delete_status' c.pk %}">Delete</a>
+            </div>
         </div>
         {% endfor %}
     {% else %}

@@ -15,7 +15,7 @@
         </p>
         <!-- use object instance.pk -->
         <a href="{% url 'article' a.pk %}">
-          <img src="{{a.image_url}}" alt="img">
+          <img src="{{a.image_file.url}}" alt="img">
         </a>
     </div>
     {% endfor %}

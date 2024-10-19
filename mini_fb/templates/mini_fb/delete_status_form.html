@@ -1,0 +1,24 @@
+{% extends 'mini_fb/base.html' %}
+{% block content %}
+<h1>Delete Status Message?</h1>
+<form method = 'POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="status-message">
+        {{message}}
+        {% if message.get_images %}
+                {% for img in message.get_images %}
+                    <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}'>
+                {% endfor %}
+        {% endif %}
+    </div>
+    <table class="button">
+        <td>
+            <input type='submit' name = 'Delete!' value= 'Delete!'>
+        </form>
+            <form action="{% url 'show_profile' message.profile.pk %}">
+                <input type="submit" name = "Cancel" value = "Cancel">
+            </form>
+        </td>
+    </table>
+</form>
+{% endblock %}

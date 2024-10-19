@@ -14,7 +14,7 @@
           <p>
               {{article.text}}
           </p>
-          <img src="{{article.image_url}}" alt="img">
+          <img src="{{article.image_file.url}}" alt="img">
           <h3><a href="{% url 'create_comment' article.pk %}">Create a comment</a></h3>
       </div>
     </article>
@@ -27,6 +27,7 @@
       <div>
         <h3>by {{c.author}} and {{c.published}}</h3>
         <p>{{c.text}}</p>
+        <a href="{% url 'delete_comment' c.pk %}">delete</a> <!-- NEW -->
       </div>
       {% endfor %}
       {% else %}

@@ -1,0 +1,51 @@
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+    <h1>Update Status Message</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="profile-table">
+            {{form.as_table}}
+        </table>
+
+        <h2>Manage Images</h2>
+        <div class="status-images">
+            {% if Umessage.get_images %}
+                <table class="profile-table">
+                    <tr>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for img in Umessage.get_images %}
+                        <tr>
+                            <td>
+                                <img src="{{ img.image_file.url }}" alt="Status Image" style="max-width: 150px;">
+                            </td>
+                            <td>
+                                <a href="{% url 'delete_image' img.pk %}"><h3>Delete!</h3></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No images associated with this status message.</p>
+            {% endif %}
+        </div>
+
+        <h2>Add New Images</h2>
+
+        <label for="id_images">Upload New Images:</label>
+        <input type="file" name="files" multiple> 
+
+        <table class="button">
+            <td>
+                <input type='submit' name = 'Update!' value= 'Update!'>
+            </form>
+                <form action="{% url 'show_profile' Umessage.profile.pk%}">
+                    <input type="submit" name = "Cancel" value = "Cancel">
+                </form>
+            </td>
+        </table>
+    </form>
+{% endblock %}

@@ -1,23 +1,17 @@
 {% extends 'mini_fb/base.html' %}
 {% block content %}
-<h1>Post a status message to {{profile}}</h1>
+<h1>Update {{ profile.first_name }} {{ profile.last_name }}'s profile</h1>
 <form method = 'POST' enctype="multipart/form-data">
     {% csrf_token %}
     <div class="profile-table-container">
         <table class="profile-table">
             {{form.as_table}}
-            <th>
-                Add photos
-            </th>
-            <td>
-                <input type="file" name = "files" multiple />
-            </td>
         </table>
         <table class="button">
             <td>
-                <input type='submit' name = 'Add Message!' value= 'Add Message!'>
+                <input type='submit' name = 'Change!' value= 'Change!'>
             </form>
-                <form action="{% url 'show_profile' profile.pk %}">
+                <form action="{% url 'show_profile' profile.pk%}">
                     <input type="submit" name = "Cancel" value = "Cancel">
                 </form>
             </td>
