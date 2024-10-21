@@ -241,6 +241,7 @@ a:hover {
 
 /* Main container for status messages */
 .status-message-container {
+    display: block;
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
@@ -260,12 +261,11 @@ a:hover {
 
 /* Individual message styling */
 .status-message {
-    display: inline-block;
     padding: 15px;
     background-color: #ece9bc;
     border-radius: 20px;
     margin-bottom: 15px;
-    max-width: 80%;
+    max-width: fit-content;
     position: relative;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     word-wrap: break-word;
