@@ -239,8 +239,16 @@ a:hover {
     transition: transform 0.3s ease-in-out;
 }
 
+.main-container {
+    display: flex;
+    margin: 0 auto;
+    gap: 20px; /* Adds space between the two columns */
+    align-items: flex-start;
+}
+
 /* Main container for status messages */
 .status-message-container {
+    flex: 2;
     display: block;
     max-width: 1400px;
     margin: 0 auto;
@@ -335,4 +343,160 @@ a:hover {
 
 .status-message a:hover {
     background-color: #ece9bc;
+}
+
+
+.friends-container {
+    flex: 1;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-y: auto;
+}
+
+.friends-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+}
+
+.friends-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+.friends-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.friends-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover; /* Ensures the image fits within the container without distortion */
+    border-radius: 50%; /* Keeps the image circular */
+    margin-bottom: 10px;
+    border: 5px solid #ece9bc;
+}
+
+.friends-card p {
+    font-size: 16px;
+    color: #494949;
+    font-weight: bold;
+    font-family: 'Arial',
+}
+
+.cardlike_button_a {
+    text-decoration: none;
+    color: #494949;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-right: 10px;
+    font-size: 1em;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.suggestion-container{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-y: auto;
+}
+
+.suggestion_card{
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion_card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover; /* Ensures the image fits within the container without distortion */
+    border-radius: 50%; /* Keeps the image circular */
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border: 5px solid #ece9bc;
+}
+
+.suggestion_card img:hover {
+    transform: scale(1.05); 
+    transition: transform 0.3s ease-in-out;
+}
+
+.suggestion_card p {
+    font-size: 16px;
+    color: #494949;
+    font-weight: bold;
+    font-family: 'Arial',
+}
+
+
+.news-feed {
+    background-color: white;
+    width: 80%;
+    padding: 40px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.status-item {
+    border-bottom: 1px solid #e8e4e4;
+    padding: 15px 0;
+}
+
+.status-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.news-content{
+    margin-left: 60px;
+}
+
+.status-images {
+    margin-top: 10px;
+}
+
+.status-image {
+    width: 200px;
+    height: 200px;
+    margin-right: 10px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.status-time {
+    color: gray;
+    font-size: 12px;
 }

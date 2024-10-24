@@ -1,11 +1,12 @@
 from typing import Any
 from django.forms import BaseModelForm
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
 from . models import *
-from django.views.generic import ListView, DetailView
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusMessageForm
 from django.urls import reverse
@@ -109,3 +110,20 @@ class DeleteImageView(DeleteView):
     def get_success_url(self):
         image = self.get_object()
         return reverse('update_status', kwargs={'pk': image.status_message.pk})
+
+class CreateFriendView(View):
+    def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        profile = Profile.objects.get(pk=self.kwargs['pk'])
+        fprfile = Profile.objects.get(pk=self.kwargs['other_pk'])
+        profile.add_friend(fprfile)
+        return redirect(reverse('show_profile', kwargs={'pk': profile.pk}))
+    
+class ShowFriendSuggestionsView(DetailView):
+    template_name = 'mini_fb/friend_suggestions.html'
+    model = Profile
+    context_object_name = "suggestion"
+
+class ShowNewsFeedView(DetailView):
+    template_name = 'mini_fb/news_feed.html'
+    model = Profile
+    context_object_name = "newsFeed"

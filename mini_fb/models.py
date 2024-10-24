@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+import random
 
 # Create your models here.
 
@@ -20,6 +21,45 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('show_profile', args=[str(self.id)])
     
+    def get_friends(self):
+        friends1 = Friend.objects.filter(profile1 = self).values_list('profile2', flat=True)
+        friends2 = Friend.objects.filter(profile2 = self).values_list('profile1', flat=True)
+
+        friends = list(friends1) + list(friends2)
+        freindsp = Profile.objects.filter(id__in=friends)
+        return freindsp
+    
+    def add_friend(self, other):
+        if self == other:
+            raise ValueError("A profile cannot friend itself.")
+        
+        friendship_exists = Friend.objects.filter(models.Q(profile1 = self, profile2=other) | models.Q(profile1=other, profile2=self)).exists()
+        if friendship_exists:
+            print(f"Friendship between {self} and {other} already exists.")
+            return
+        
+        new_friend = Friend(profile1=self, profile2 = other)
+        new_friend.save()
+        print(f"Friendship between {self} and {other} added successfully.")
+
+    def get_friend_suggestions(self):
+        all_profiles = Profile.objects.exclude(pk = self.pk)
+        currentf = self.get_friends().values_list('pk', flat=True)
+        nonf = all_profiles.exclude(pk__in=currentf)
+        non_friends_list = list(nonf)
+        random.shuffle(non_friends_list)
+        return non_friends_list[:3]
+    
+    def get_news_feed(self):
+        own_message = StatusMessage.objects.filter(profile=self)
+
+        friends = self.get_friends()
+        friends_message = StatusMessage.objects.filter(profile__in=friends)
+        all_mess = (own_message | friends_message).order_by('-timestamp')
+
+        return all_mess
+
+
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     message = models.TextField(blank=False)
@@ -40,3 +80,11 @@ class Image(models.Model):
 
     def __str__(self):
         return f'{self.status_message}'
+
+class Friend(models.Model):
+    profile1 = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name="profile1")
+    profile2 = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name="profile2")
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.profile1} & {self.profile2}'
