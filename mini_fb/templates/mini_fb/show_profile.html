@@ -9,11 +9,13 @@
     <h4>{{profile.email_address}}</h4>
     <h4>{{profile.city}}</h4>
 </div>
+{% if request.user.is_authenticated and request.user == profile.user %}
 <div class="container">
-    <a href="{% url 'update_profile' profile.pk %}"><h2>Update Profile</h2></a>
-    <a href="{% url 'create_status' profile.pk %}"><h2>Add Status Message</h2></a>
-    <a href="{% url 'news_feed' profile.pk %}"><h2>News Feed</h2></a>
+    <a href="{% url 'update_profile' %}"><h2>Update Profile</h2></a>
+    <a href="{% url 'create_status' %}"><h2>Add Status Message</h2></a>
+    <a href="{% url 'news_feed' %}"><h2>News Feed</h2></a>
 </div>
+{% endif %}
 <div class="main-container">
     <div class="status-message-container">
         <h2>Status Message</h2>
@@ -28,10 +30,12 @@
                     {% endfor %}
                 {% endif %}
                 <p class="timestamp">{{c.timestamp}}</p>
+                {% if request.user.is_authenticated and request.user == profile.user %}
                 <div>
                     <a href="{% url 'update_status' c.pk %}">Update</a>
                     <a href="{% url 'delete_status' c.pk %}">Delete</a>
                 </div>
+                {% endif %}
             </div>
             {% endfor %}
         {% else %}
@@ -53,7 +57,9 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <a href="{% url 'friend_suggestions' profile.pk %}" class="cardlike_button_a">See friend suggestions</a>
+        {% if request.user.is_authenticated and request.user == profile.user %}
+        <a href="{% url 'friend_suggestions' %}" class="cardlike_button_a">See friend suggestions</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

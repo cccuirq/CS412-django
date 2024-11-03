@@ -7,9 +7,26 @@
 <body>
     <nav>
         <ul>
-            <a href="{% url 'show_all_profiles' %}">Friends</a>
-            <a href="{% url 'create_profile' %}">Add Friends</a>
+            <a href="{% url 'show_all_profiles' %}">Profiles</a>
+            <a href="{% url 'create_profile' %}">Add Profile</a>
         </ul>
+        {% if request.user.is_authenticated %}
+            <div class="user-dropdown">
+                <button class="user-button">
+                    {{ request.user.username|default:"User" }}
+                    <span class="dropdown-arrow">&#x25BC;</span>
+                </button>
+                <div class="dropdown-content">
+                    <a href="{% url 'show_profile_self' %}">My Profile</a>
+                    <form method="POST" action="{% url 'logout' %}" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <a href="{% url 'login' %}" class="login-link">Log in</a>
+        {% endif %}
     </nav>
      {% block content %}
      <!-- put the intersting (specific stuff) here -->

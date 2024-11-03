@@ -1,0 +1,22 @@
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<h1>Login</h1>
+
+<form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    {{form}}
+    <!-- what to do after login process -->
+     {% if request.GET.next %}
+     <input type="hidden" name="next" value="{{request.GET.next}}">
+     {% else %}
+    <input type="hidden" name="next" value="{% url 'show_all_profiles' %}">
+    {% endif %}
+    <input type="submit" value="Login">
+</form>
+
+<hr>
+Don't have account yet?
+<a href="{% url 'register' %}">Register here</a>.
+
+{% endblock %}

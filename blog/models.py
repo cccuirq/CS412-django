@@ -3,11 +3,14 @@
 #when modify data attributes run make migration
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Article(models.Model):
     '''Encapsulate the data for a blog Article by some author'''
-
+    #each Article will associated with a User
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
     #data attributes:
     title = models.TextField(blank=False)
     author = models.TextField(blank=False)

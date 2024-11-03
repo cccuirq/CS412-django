@@ -1,6 +1,9 @@
 from django.db import models
 from django.urls import reverse
 import random
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -10,6 +13,8 @@ class Profile(models.Model):
     city = models.TextField(blank=False)
     email_address = models.EmailField(blank=False, unique=True)
     profile_image_url = models.URLField(blank=True)
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -58,8 +63,7 @@ class Profile(models.Model):
         all_mess = (own_message | friends_message).order_by('-timestamp')
 
         return all_mess
-
-
+    
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     message = models.TextField(blank=False)
@@ -88,3 +92,12 @@ class Friend(models.Model):
 
     def __str__(self):
         return f'{self.profile1} & {self.profile2}'
+    
+# @receiver(post_save, sender=User)
+# def create_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Profile.objects.create(user=instance)
+
+# @receiver(post_save, sender=User)
+# def save_profile(sender, instance, **kwargs):
+#     instance.profile.save()
