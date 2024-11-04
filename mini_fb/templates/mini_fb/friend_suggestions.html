@@ -4,14 +4,14 @@
 <div class="suggestion-container">
 {% for s in suggestion.get_friend_suggestions %}
     <div class="suggestion_card">
-        <a href="{% url 'add_friend' s.pk %}">Add Friend</a>
+        <a href="{% url 'add_friend' s.pk %}?profile_id={{ suggestion.pk }}">Add Friend</a>
         <a href="{% url 'show_profile' s.pk %}"><img src="{{s.profile_image_url}}" alt="img"></a>
         <p>{{ s.first_name }} {{ s.last_name }}</p>
     </div>
 {% endfor %}
 </div>
 <div>
-    <a href="{% url 'friend_suggestions' %}" class="cardlike_button_a">More Friends Suggestion</a>
+    <a href="{% url 'friend_suggestions' %}?profile_id={{ suggestion.id }}" class="cardlike_button_a">More Friends Suggestion</a>
     <a href="{% url 'show_profile' suggestion.pk %}" class="cardlike_button_a">Back to {{ suggestion.first_name }}'s profile</a>
 </div>
 {% endblock %}

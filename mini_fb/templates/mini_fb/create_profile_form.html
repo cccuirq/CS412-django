@@ -19,6 +19,7 @@
                 <input type='submit' name = 'Add Profile!' value= 'Add Profile!'>
             </form>
                 <form action="{% url 'show_profile_self'%}">
+                    {% csrf_token %}
                     <input type="submit" name = "Cancel" value = "Cancel">
                 </form>
             </td>

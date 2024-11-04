@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.http import Http404
 
 class ShowAllProfilesView(ListView):
 
@@ -40,31 +41,34 @@ class CreateProfileView(CreateView):
     template_name = 'mini_fb/create_profile_form.html'
 
     def get_context_data(self, **kwargs):
-        # Start by calling the superclass method
         context = super().get_context_data(**kwargs)
-        # Add UserCreationForm to the context
         context['user_creation_form'] = UserCreationForm()
         return context
 
     def form_valid(self, form):
-        # Reconstruct the UserCreationForm with the POST data
-        user_creation_form = UserCreationForm(self.request.POST)
-        
-        if user_creation_form.is_valid():
-            # Save the user and get the User instance
-            user = user_creation_form.save()
+        if not self.request.user.is_authenticated:
+            # If not authenticated, handle user creation
+            user_creation_form = UserCreationForm(self.request.POST)
             
-            # Attach the user to the Profile instance
-            form.instance.user = user
-            
-            # Log the user in automatically after registration
-            login(self.request, user)
-            
-            # Proceed with the normal profile saving
-            return super().form_valid(form)
+            if user_creation_form.is_valid():
+                # Save the new user and get the User instance
+                user = user_creation_form.save()
+                # Attach the new user to the Profile instance
+                form.instance.user = user
+                # Log the user in automatically after registration
+                login(self.request, user)
+                print("New user and profile successfully created.")
+            else:
+                # If UserCreationForm is invalid, re-render the form with errors
+                print("UserCreationForm errors:", user_creation_form.errors)
+                return self.form_invalid(form)
         else:
-            # If the UserCreationForm is invalid, re-render the form with errors
-            return self.form_invalid(form)
+            # For authenticated users, attach the new profile to the current user
+            form.instance.user = self.request.user
+            print("Profile successfully created for existing user.")
+
+        # Proceed with saving the profile
+        return super().form_valid(form)
 
 class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     form_class = CreateStatusMessageForm
@@ -72,16 +76,28 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        profile = Profile.objects.get(user=self.request.user)
-        context['profile']= profile
+        # Retrieve profile_id from query parameters
+        profile_id = self.request.GET.get('profile_id')
+        
+        # Ensure profile_id is provided
+        if profile_id:
+            profile = get_object_or_404(Profile, user=self.request.user, id=profile_id)
+            context['profile'] = profile
+        else:
+            raise Http404("Profile ID not provided or invalid")
+        
         return context
     
     def form_valid(self, form):
-        profile = Profile.objects.get(user=self.request.user)
-
-        #attach the article to the new Comment
-        # (forms.instance is the new comment objects)
-        form.instance.profile = profile
+         # Retrieve profile_id from query parameters
+        profile_id = self.request.GET.get('profile_id')
+        
+        # Ensure profile_id is provided
+        if profile_id:
+            profile = get_object_or_404(Profile, user=self.request.user, id=profile_id)
+            form.instance.profile = profile
+        else:
+            raise Http404("Profile ID not provided or invalid")
         
         sm = form.save()
         files = self.request.FILES.getlist('files')
@@ -99,16 +115,25 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
     
     def get_success_url(self) -> str:
-        profile = Profile.objects.get(user=self.request.user)
-        return reverse("show_profile", kwargs={'pk': profile.pk})
+        profile_id = self.request.GET.get('profile_id')
+        return reverse("show_profile", kwargs={'pk': profile_id})
     
     def get_login_url(self) -> str:
 
         return reverse('login')
     
     def get_object(self):
-        # Retrieve the Profile object based on the logged-in user
-        return get_object_or_404(Profile, user=self.request.user)
+        profile_id = self.request.GET.get('profile_id')
+        
+        # Debugging output
+        print("Profile ID from query parameters:", profile_id)
+        
+        if profile_id:
+            profile = get_object_or_404(Profile, user=self.request.user, id=profile_id)
+            print("Profile found:", profile)
+            return profile
+        else:
+            raise Http404("Profile ID not provided or invalid")
     
 class UpdateProfileView(LoginRequiredMixin, UpdateView):
     form_class = UpdateProfileForm
@@ -116,8 +141,17 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     model = Profile
 
     def get_object(self):
-        # Retrieve the Profile object based on the logged-in user
-        return get_object_or_404(Profile, user=self.request.user)
+        profile_id = self.request.GET.get('profile_id')
+        
+        # Debugging output
+        print("Profile ID from query parameters:", profile_id)
+        
+        if profile_id:
+            profile = get_object_or_404(Profile, user=self.request.user, id=profile_id)
+            print("Profile found:", profile)
+            return profile
+        else:
+            raise Http404("Profile ID not provided or invalid")
 
 class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     template_name = 'mini_fb/delete_status_form.html'
@@ -154,6 +188,7 @@ class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
     def get_success_url(self) -> str:
         status = self.get_object()
         return reverse('show_profile', kwargs={'pk': status.profile.pk})
+
     
 class DeleteImageView(LoginRequiredMixin, DeleteView):
     model = Image
@@ -166,14 +201,31 @@ class DeleteImageView(LoginRequiredMixin, DeleteView):
 
 class CreateFriendView(LoginRequiredMixin, View):
     def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        profile = Profile.objects.get(user=self.request.user)
-        fprfile = Profile.objects.get(pk=self.kwargs['other_pk'])
-        profile.add_friend(fprfile)
-        return redirect(reverse('show_profile', kwargs={'pk': profile.pk}))
+        profile_id = request.GET.get('profile_id')
+        
+        if profile_id:
+            user_profile = get_object_or_404(Profile, user=request.user, id=profile_id)
+        else:
+            raise Http404("Profile ID not provided or invalid")
+
+        friend_profile = get_object_or_404(Profile, pk=self.kwargs['other_pk'])
+        
+        user_profile.add_friend(friend_profile)
+        
+        return redirect(reverse('show_profile', kwargs={'pk': user_profile.pk}))
     
     def get_object(self):
-        # Retrieve the Profile object based on the logged-in user
-        return get_object_or_404(Profile, user=self.request.user)
+        profile_id = self.request.GET.get('profile_id')
+        
+        # Debugging output
+        print("Profile ID from query parameters:", profile_id)
+        
+        if profile_id:
+            profile = get_object_or_404(Profile, user=self.request.user, id=profile_id)
+            print("Profile found:", profile)
+            return profile
+        else:
+            raise Http404("Profile ID not provided or invalid")
     
 class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
     template_name = 'mini_fb/friend_suggestions.html'
@@ -181,8 +233,17 @@ class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
     context_object_name = "suggestion"
 
     def get_object(self):
-        # Retrieve the Profile object based on the logged-in user
-        return get_object_or_404(Profile, user=self.request.user)
+        profile_id = self.request.GET.get('profile_id')
+        
+        # Debugging output
+        print("Profile ID from query parameters:", profile_id)
+        
+        if profile_id:
+            profile = get_object_or_404(Profile, user=self.request.user, id=profile_id)
+            print("Profile found:", profile)
+            return profile
+        else:
+            raise Http404("Profile ID not provided or invalid")
 
 class ShowNewsFeedView(LoginRequiredMixin, DetailView):
     template_name = 'mini_fb/news_feed.html'
@@ -190,5 +251,14 @@ class ShowNewsFeedView(LoginRequiredMixin, DetailView):
     context_object_name = "newsFeed"
 
     def get_object(self):
-        # Retrieve the Profile object based on the logged-in user
-        return get_object_or_404(Profile, user=self.request.user)
+        profile_id = self.request.GET.get('profile_id')
+        
+        # Debugging output
+        print("Profile ID from query parameters:", profile_id)
+        
+        if profile_id:
+            profile = get_object_or_404(Profile, user=self.request.user, id=profile_id)
+            print("Profile found:", profile)
+            return profile
+        else:
+            raise Http404("Profile ID not provided or invalid")

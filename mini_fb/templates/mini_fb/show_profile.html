@@ -11,9 +11,9 @@
 </div>
 {% if request.user.is_authenticated and request.user == profile.user %}
 <div class="container">
-    <a href="{% url 'update_profile' %}"><h2>Update Profile</h2></a>
-    <a href="{% url 'create_status' %}"><h2>Add Status Message</h2></a>
-    <a href="{% url 'news_feed' %}"><h2>News Feed</h2></a>
+    <a href="{% url 'update_profile' %}?profile_id={{ profile.id }}"><h2>Update Profile</h2></a>
+    <a href="{% url 'create_status' %}?profile_id={{ profile.id }}"><h2>Add Status Message</h2></a>
+    <a href="{% url 'news_feed' %}?profile_id={{ profile.id }}"><h2>News Feed</h2></a>
 </div>
 {% endif %}
 <div class="main-container">
@@ -58,7 +58,7 @@
             </div>
         {% endif %}
         {% if request.user.is_authenticated and request.user == profile.user %}
-        <a href="{% url 'friend_suggestions' %}" class="cardlike_button_a">See friend suggestions</a>
+        <a href="{% url 'friend_suggestions' %}?profile_id={{ profile.id }}" class="cardlike_button_a">See friend suggestions</a>
         {% endif %}
     </div>
 </div>
