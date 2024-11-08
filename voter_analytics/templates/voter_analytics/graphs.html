@@ -1,0 +1,24 @@
+{% extends 'voter_analytics/base.html' %}
+{% block content %}
+<div class="row">
+    {% include "voter_analytics/search.html" %}    
+</div>
+<h1>Distribution of Voters by Year of Birth</h1>
+<div class="card-container">
+    <div class="card-body">
+        {{ graph_div|safe }}
+    </div>
+</div>
+<h1>Voter Distribution by Party Affiliation</h1>
+<div class="card-container">
+    <div class="card-body">
+        {{ graph_div_a|safe }}
+    </div>
+</div>
+<h1>Voter Distribution by Party Affiliation</h1>
+<div class="card-container">
+    <div class="card-body">
+        {{ graph_div_b|safe }}
+    </div>
+</div>
+{% endblock %}

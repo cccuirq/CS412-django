@@ -1,0 +1,75 @@
+<div class="form-container">
+<h3>Search Form</h3>
+
+<form method="get">
+    <div class="form-group">
+        <label for="party_affiliation">Party Affiliation:</label>
+        <select name="party_affiliation" id="party_affiliation">
+            <option value="">All</option>
+            <option value="D">Democrat</option>
+            <option value="R">Republican</option>
+            <option value="U">Unaffiliated</option>
+            <option value="J">J</option>
+            <option value="A">A</option>
+            <option value="CC">CC</option>
+            <option value="X">X</option>
+            <option value="L">L</option>
+            <option value="Q">Q</option>
+            <option value="S">S</option>
+            <option value="FF">FF</option>
+            <option value="G">G</option>
+            <option value="HH">HH</option>
+            <option value="T">T</option>
+            <option value="AA">AA</option>
+            <option value="GG">GG</option>
+            <option value="Z">Z</option>
+            <option value="O">O</option>
+            <option value="P">P</option>
+            <option value="E">E</option>
+            <option value="V">V</option>
+            <option value="H">H</option>
+            <option value="Y">Y</option>
+            <option value="W">W</option>
+            <option value="EE">EE</option>
+            <option value="K">K</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="min_dob">Minimum Date of Birth:</label>
+        <select name="min_dob" id="min_dob">
+            <option value="">Any</option>
+            {% for year in years %}
+                <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="max_dob">Maximum Date of Birth:</label>
+        <select name="max_dob" id="max_dob">
+            <option value="">Any</option>
+            {% for year in years %}
+                <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="voter_score">Voter Score:</label>
+        <select name="voter_score" id="voter_score">
+            <option value="">Any</option>
+            {% for score in scores %}
+                <option value="{{ score }}">{{ score }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Voted in Elections:</label><br>
+        <input type="checkbox" name="v20state" value="True"> 2020 State<br>
+        <input type="checkbox" name="v21town" value="True"> 2021 Town<br>
+        <input type="checkbox" name="v21primary" value="True"> 2021 Primary<br>
+        <input type="checkbox" name="v22general" value="True"> 2022 General<br>
+        <input type="checkbox" name="v23town" value="True"> 2023 Town<br>
+    </div>
+    
+    <input type="submit">
+</form>
+</div>

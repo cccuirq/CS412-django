@@ -1,0 +1,60 @@
+<!-- templates/marathon_analytics/results_detial.html -->
+{% extends 'ma/base.html' %}
+{% block content %}
+<div class="container">
+
+    <h1>Results</h1>
+    <div class="row">
+        <table>
+            <tr>
+                <th>Place Overall</th>
+                <th>Name</th>
+                <th>Citizenship</th>
+                <th>City, State</th>
+                <th>Division</th>
+                
+                <th>First Half</th>
+                <th>Second Half</th>
+                <th>Finish Time</th>
+            </tr>
+    
+          <tr>
+                
+                <td>{{r.place_overall}}</td>
+                <td>{{r.first_name}} {{r.last_name}}</a>
+                </td>
+                <td>{{r.ctz}}</td>
+                <td>{{r.city}}, {{r.state}}</td>
+                <td>{{r.gender.0}} {{r.division}}</td>
+                
+                <td>{{r.time_half1|time:"H:i:s"}}</td>
+                <td>{{r.time_half2|time:"H:i:s"}}</td>
+                <td>{{r.time_finish|time:"H:i:s"}}</td>
+             
+            </tr>
+    
+        </table>
+        </div>
+
+        <div>
+            <p>
+                {{r.first_name}} {{r.last_name}} start at {{r.start_time_of_day}}
+                and finished at {{r.finish_time_of_day}}
+            </p>
+            <p>
+                {{r.first_name}} {{r.last_name}} passed {{r.get_runners_passed}}
+                runners on the course and was passed by {{r.get_runners_passed_by}}
+            </p>
+            
+            
+            <div class="row">
+                <p>
+                    {{graph_div|safe}}
+                    {{graph_div_splits|safe}}
+                </p>
+                
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

@@ -1,0 +1,66 @@
+<!-- templates/marathon_analytics/results.html -->
+{% extends 'voter_analytics/base.html' %}
+{% block content %}
+<h1>Votes</h1>
+<div class="vcontainer">
+    <div class="row">
+        {% include "voter_analytics/search.html" %}    
+    </div>
+    <div class="row">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Street Number, Street Name</th>
+                <th>Date of Birth</th>
+
+                <th>Date of Registration</th>
+                <th>Party Affiliation</th>
+                <th>Precinct Number</th>
+                <th>Voter Score</th>
+                <th>Details</th>
+            </tr>
+    
+            {% for v in votes %}
+            <tr>
+                <td>{{v.first_name}} {{v.last_name}}</td>
+                <td>{{v.street_num}}, {{v.street_name}}</td>
+                <td>{{v.DOB}}</td>
+                
+                <td>{{v.DOR}}</td>
+                <td>{{v.party_affiliation}}</td>
+                <td>{{v.precinct_num}}</td>
+                <td>{{v.voter_score}}</td>
+                
+                <td>
+                    <a href="{% url 'votes_detail' v.pk %}" class="details-button">View Details</a>
+                </td>
+            </tr>
+            {% endfor %}
+    
+        </table>
+    </div>
+
+        <!-- navigation -->
+
+    <div class="row">
+        {% if is_paginated %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li>
+                        <a href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}">Previous</a>
+                    </li>
+                {% endif %}
+                    <li>
+                        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+                    </li>
+                {% if page_obj.has_next %}
+                    <li>
+                        <a href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+    
+{% endblock %}

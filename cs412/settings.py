@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "blog",
     "mini_fb",
     "media",
+    "ma",
+    "voter_analytics"
 ]
 
 MIDDLEWARE = [

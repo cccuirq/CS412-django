@@ -1,0 +1,49 @@
+<!-- templates/marathon_analytics/results.html -->
+{% extends 'voter_analytics/base.html' %}
+{% block content %}
+<h1>Detailed</h1>
+<div class="vcontainer">
+    <div class="row">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Street Number, Street Name</th>
+                <th>Date of Birth</th>
+
+                <th>Date of Registration</th>
+                <th>Party Affiliation</th>
+                <th>Precinct Number</th>
+                <th>2020 State</th>
+                <th>2021 Town</th>
+                <th>2021 Primary</th>
+                <th>2022 General</th>
+                <th>2023 Town</th>
+                <th>Voter Score</th>
+            </tr>
+            <tr>
+                <td>{{v.first_name}} {{v.last_name}}</td>
+                <td>{{v.street_num}}, {{v.street_name}}</td>
+                <td>{{v.DOB}}</td>
+                
+                <td>{{v.DOR}}</td>
+                <td>{{v.party_affiliation}}</td>
+                <td>{{v.precinct_num}}</td>
+
+                <td>{{v.v20state}}</td>
+                <td>{{v.v21town}}</td>
+                <td>{{v.v21primary}}</td>
+                <td>{{v.v22general}}</td>
+                <td>{{v.v23town}}</td>
+                <td>{{v.voter_score}}</td>
+             
+            </tr>
+        </table>
+    </div>
+
+    <div class="row">
+        <p>
+            <a href="https://www.google.com/maps/search/?api=1&query={{ v.street_num }}+{{ v.street_name }},+{{ v.zip_code }}" target="_blank" class="details-button">View Address on Google Maps</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
