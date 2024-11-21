@@ -29,6 +29,7 @@ urlpatterns = [
     path('mini_fb/', include("mini_fb.urls")),
     path('ma/', include("ma.urls")),
     path('voter_analytics/', include("voter_analytics.urls")),
+    path('waterlog/', include("waterlog.urls")),
     
 ] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
 

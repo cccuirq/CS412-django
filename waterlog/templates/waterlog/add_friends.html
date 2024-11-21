@@ -1,0 +1,30 @@
+{% extends 'waterlog/base.html' %}
+
+{% block content %}
+<h1 class="form-heading">Add Friends</h1>
+<form method="get" class="form-container">
+    <input type="text" name="search" placeholder="Search by username..." value="{{ search_query }}">
+    <input type="submit" name="Search!" value="Search!" class="btn-primary">
+</form>
+
+{% if potential_friends %}
+    <h3>Search Results:</h3>
+    <div class="card-container">
+        {% for profile in potential_friends %}
+            <div class="card">
+                <h4>{{ profile.user_name }}</h4>
+                <img src="{{ profile.profile_img.url }}" alt="img">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="friend_id" value="{{ profile.id }}">
+                    <input type="submit" name="ADD!" value="ADD!" class="btn-primary">
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No potential friends found.</p>
+{% endif %}
+
+<a href="{% url 'friends_log' %}">Back to Friends Log</a>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'waterlog/base.html' %}
+
+{% block content %}
+<h1>Daily Water Logs</h1>
+
+<div class="daily-log-container">
+    {% for log in daily_logs %}
+        <a href="{% url 'day_log' log.date %}" class="daily-log-block {% if log.total_consumed >= goal %}goal-met{% else %}goal-not-met{% endif %}">
+            <div class="log-block">
+                <p>{{ log.date|date:"Y" }}</p>
+                <p>{{ log.date|date:"F j" }}</p>
+                <p>Total: {{ log.total_consumed|floatformat:1 }} ml</p>
+            </div>
+        </a>
+    {% endfor %}
+</div>
+
+<a href="{% url 'show_today_log' %}" class="cta-button">Back to Today's Log</a>
+{% endblock %}

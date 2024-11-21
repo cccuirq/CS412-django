@@ -1,0 +1,40 @@
+{% load static %}
+<html>
+<head>
+    <title>CC waterTracker</title>
+    <link rel="stylesheet" href="{% static 'stylesw.css' %}">
+</head>
+<body>
+    <nav>
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'show_today_log' %}">Today's Log</a>
+        <a href="{% url 'daily_logs' %}">All logs</a>
+        <a href="{% url 'friends_log' %}">Friends log</a>
+        <div class="user-dropdown" tabindex="0">
+            <button class="user-button" aria-haspopup="true" aria-expanded="false">
+                {{ request.user.username|default:"User" }}
+                <span class="dropdown-arrow">&#x25BC;</span>
+            </button>
+            <div class="dropdown-content" aria-label="User Options">
+                <a href="{% url 'my_profile' %}">My profile</a>
+                <a href="{% url 'update_profile' %}">Update profile</a>
+                <a href="{% url 'add_friends' %}">Add friends</a>
+                <form method="POST" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <a href="{% url 'home1' %}">Home</a>
+        <a href="{% url 'login' %}" class="login-link">Log in</a>
+    {% endif %}
+</nav>
+</body>
+{% block content %}
+     <!-- put the intersting (specific stuff) here -->
+     {% endblock %}
+<footer class="footer">
+    <p>&copy; Page created by ccryscui@bu.edu</p>
+</footer>
+</html>

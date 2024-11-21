@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     "mini_fb",
     "media",
     "ma",
-    "voter_analytics"
+    "voter_analytics",
+    "waterlog"
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,607 @@
+body {
+    background-color: #ffffff;
+    color: #272343;
+    font-family: Arial, sans-serif;
+    margin: 10px;
+    padding: 0;
+    text-align: center;
+}
+
+a{
+    text-decoration: none; 
+    color: #494949; 
+    font-size:larger;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #4285f4;
+}
+
+
+
+/* nav */
+nav {
+    background-color: white;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    display: flex;
+}
+
+nav a {
+    color: #494949; 
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: color 0.3s ease;
+}
+
+
+nav a:hover {
+    color: #4285f4;
+}
+
+
+
+/* dropdown */
+.user-dropdown {
+    position: absolute;
+    display: inline-block;
+    right: 20px;
+}
+
+.user-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #333;
+}
+
+.dropdown-arrow {
+    font-size: 12px;
+    color: #333;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    z-index: 1;
+    padding: 10px 0;
+    overflow: hidden;
+}
+
+.dropdown-content a,
+.dropdown-content button {
+    color: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+
+.dropdown-content a:hover,
+.dropdown-content button:hover {
+    background-color: #f1f1f1;
+}
+
+.user-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.logout-form {
+    margin: 0;
+    padding: 0;
+}
+
+.logout-form button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #333;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.logout-form button:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* main page */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: #f9f9f9;
+}
+
+.content-wrapper {
+    max-width: 800px;
+    padding: 20px;
+}
+
+.brand-name {
+    color: #4285f4;
+    font-weight: 700;
+}
+
+.intro-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin: 20px 0;
+    color: #333;
+}
+
+.cta-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 1rem;
+    color: #fff;
+    background: #4285f4;
+    border-radius: 25px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.cta-button:hover {
+    background: #3367d6;
+    box-shadow: 0 5px 20px rgba(66, 133, 244, 0.5);
+}
+
+
+.styled-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.footer-text {
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+
+/* form */
+form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+}
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+input[type="submit"] {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+input[type="submit"]:hover {
+    background-color: #244a9a;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+
+.form-heading {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #272343;
+    text-align: center;
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background-color: #4285f4;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #244a9a;
+}
+
+input[type="submit"].btn-secondary {
+    background-color: #ddd;
+    color: #333;
+}
+
+input[type="submit"].btn-secondary:hover {
+    background-color: #ccc;
+}
+.inline-form {
+    display: inline;
+}
+
+.log-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.form-heading {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #272343;
+}
+
+
+/* today water log */
+.record-wrapper{
+    padding: 20px;
+}
+
+.records-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction:row;
+    gap: 20px;
+    justify-content: center;
+}
+
+.log-entry {
+    flex: 1 1 300px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.log-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+
+.log-text {
+    font-size: 1.1rem;
+    color: #272343;
+    margin-bottom: 10px;
+}
+
+.timestamp {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.log-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.action-link {
+    font-size: 0.95rem;
+    color: #4285f4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.action-link:hover {
+    color: #244a9a;
+}
+
+.delete-link {
+    color: #d9534f;
+}
+
+.delete-link:hover {
+    color: #7d221f;
+}
+
+
+.no-logs {
+    font-size: 1.1rem;
+    color: #999;
+    margin-top: 20px;
+}
+
+.action-links {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+/* myprofile */
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.profile-image img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 5px solid #acc6f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-details {
+    background-color: #e2eaf7;
+    border-radius: 10px;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 80%; /* Adjust the width as needed */
+    max-width: 1000px; /* Ensure the card doesn't get too large */
+    text-align: center; /* Align text to the left */
+}
+
+/* show size */
+.water-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 40px auto;
+    text-align: center;
+    gap: 20px;
+}
+
+.water-item {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.water-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow on hover */
+}
+
+.water-image {
+    width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.water-text {
+    font-size: 1.1rem;
+    color: #333; /* Darker text for readability */
+}
+
+.water-log-container {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+}
+
+.water-log-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.water-log-table th,
+.water-log-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.water-log-table th {
+    background-color: #4285f4;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.water-log-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.water-log-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.water-log-table td {
+    font-size: 1rem;
+    color: #333;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4285f4;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background 0.3s ease;
+}
+
+.back-link:hover {
+    background-color: #3367d6;
+}
+
+/* goal part */
+.water-goal-status {
+    text-align: center;
+    padding: 20px;
+    padding-bottom: 0px;
+    border-radius: 10px;
+}
+
+.total-water-consumed {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.goal-message {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+.goal-met-message {
+    color: #4caf50;
+}
+
+.goal-not-met-message {
+    color: #f44336; 
+}
+
+/* Daily log container styling */
+.daily-log-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.daily-log-block {
+    text-decoration: none;
+    color: black;
+    width: 100px; 
+    height: 100px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.goal-met {
+    background-color: #d4edda;
+    border: 2px solid #c3e6cb;
+}
+
+.goal-not-met {
+    background-color: #f8d7da;
+    border: 2px solid #f5c6cb;
+}
+
+.daily-log-block:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* progress bar */
+.progress-bar-container {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 100px;
+    height: 10px;
+    margin-left: 20%;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.3s ease-in-out;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 5px solid #acc6f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Card hover effect */
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}

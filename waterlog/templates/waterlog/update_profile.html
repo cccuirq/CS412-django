@@ -1,0 +1,18 @@
+{% extends 'waterlog/base.html' %}
+
+{% block content %}
+    <h1 class="form-heading">Update Profile</h1>
+
+    <form method="post" enctype="multipart/form-data" class="form-container">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <div class="form-actions">
+            <input type="submit" name="Update!" value="Update!" class="btn-primary">
+        </div>
+    </form>
+    <form action="{% url 'my_profile' %}" class="inline-form">
+        <input type="submit" name="Cancel" value="Cancel" class="btn-secondary">
+    </form>
+{% endblock %}

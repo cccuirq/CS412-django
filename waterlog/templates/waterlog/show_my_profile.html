@@ -1,0 +1,20 @@
+{% extends 'waterlog/base.html' %}
+
+{% block content %}
+<h1 class="brand-name">{{ profileMe.user_name }}</h1>
+
+<div class="profile-container">
+    <div class="profile-image">
+        <img src="{{ profileMe.profile_img.url }}" alt="{{ profileMe.user_name }}'s profile picture">
+    </div>
+    <div class="profile-details">
+        <p><strong>Gender:</strong> {{ profileMe.gender }}</p>
+        <p><strong>Date of Birth:</strong> {{ profileMe.DOB|date:"F j, Y" }}</p>
+        <p><strong>Daily Water Goal:</strong> {{ profileMe.Goal }} ml</p>
+    </div>
+    <div>
+        <a href="{% url 'update_profile' %}" class="cta-button">Update My Profile</a>
+    </div>
+</div>
+
+{% endblock %}

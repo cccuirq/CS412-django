@@ -1,0 +1,21 @@
+{% extends 'waterlog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-container">
+    <div class="content-wrapper">
+        <h1>Welcome to <span class="brand-name">CC WaterLog</span></h1>
+        <p class="intro-text">
+            Your personal hydration tracker. Simple. Convenient. Powerful. CC WaterLog helps you log your water intake, view your daily progress, and stay motivated on your journey to optimal health and hydration.
+        </p>
+
+        <img src="{% static 'pexels-pixabay-40784.jpg' %}" alt="home-img" class="styled-img">
+        
+        <a href="{% url 'login' %}" class="cta-button">Login to Your Account</a>
+        <br>
+        <p></p>
+        Don't have account yet?<br>
+        <a href="{% url 'register' %}">Register here</a>.
+    </div>
+</div>
+{% endblock %}

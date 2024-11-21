@@ -1,0 +1,37 @@
+{% extends 'waterlog/base.html' %}
+
+{% block content %}
+<div class="water-log-container">
+    <h2>{{ wprofile.user_name }}'s Friends' Water Logs</h2>
+    {% if friends_logs %}
+        <table class="water-log-table">
+            <thead>
+                <tr>
+                    <th>Friend</th>
+                    <th>Total Water Consumed Today</th>
+                    <th>Their Goal</th>
+                    <th>Progress</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for friend_log in friends_logs %}
+                    <tr>
+                        <td>{{ friend_log.name }}</td>
+                        <td>{{ friend_log.total_ml }} ml</td>
+                        <td>{{ friend_log.goal}} ml</td>
+                        <td>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: {{ friend_log.progress }}%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-logs">No friends found.</p>
+    {% endif %}
+
+    <a href="{% url 'add_friends' %}" class="cta-button">Add more friends</a>
+</div>
+{% endblock %}

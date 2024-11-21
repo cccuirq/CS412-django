@@ -1,0 +1,65 @@
+{% extends 'waterlog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="record-wrapper">
+    <h1 class="brand-name">{{ profileMe.user_name }}'s Water Log</h1>
+
+    
+    <h3 class="section-heading">Today</h3>
+    <div class="records-container">
+        {% if today_water_logs %}
+            {% for c in today_water_logs %}
+                <div class="log-entry">
+                    <p class="log-text">I drank <strong>{{ c.amount_consumed }} {{ c.water_type }}</strong></p>
+                    <p class="timestamp">{{ c.timestamp|date:"F j, Y, g:i a" }}</p>
+                    <div class="log-actions">
+                        <a href="{% url 'update_waterlog' c.pk %}" class="action-link">Update</a>
+                        <a href="{% url 'delete_waterlog' c.pk %}" class="action-link delete-link">Delete</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-logs">No water logs found for today.</p>
+        {% endif %}
+    </div>
+    
+    <div class="water-goal-status">
+        <h3 class="total-water-consumed {% if goal_met %}goal-met-message{% else %}goal-not-met-message{% endif %}">
+            Total Water Consumed: {{ total_ml }} ml
+        </h3>
+        {% if goal_met %}
+            <p class="goal-message goal-met-message">
+                🎉 Congratulations! You've reached today's goal! 🎉
+            </p>
+        {% else %}
+            <p class="goal-message goal-not-met-message">
+                💧 Don't meet the goal yet! Keep drinking! 💧
+            </p>
+            <p class="timestamp">Still need {{still_need}} ml</p>
+        {% endif %}
+    </div>
+    
+
+    <div class="action-links">
+        <a href="{% url 'add_waterlog' %}" class="cta-button">Add Water!</a>
+    </div>
+    <br>
+    <div class="water-info">
+        <div class="water-item">
+            <img src="{% static 'download1.jpeg' %}" alt="cup" class="water-image">
+            <p class="water-text">A cup of water is around <strong>250 ml</strong></p>
+        </div>
+        <div class="water-item">
+            <img src="{% static 'download2.png' %}" alt="bottle" class="water-image">
+            <p class="water-text">A can of water is around <strong>330 ml</strong></p>
+        </div>
+        <div class="water-item">
+            <img src="{% static 'images.png' %}" alt="bottle" class="water-image">
+            <p class="water-text">A bottle of water is around <strong>500 ml</strong></p>
+        </div>
+    </div>
+    <a href="{% url 'daily_logs' %}">View All Water Logs</a>
+</div>
+{% endblock %}
+

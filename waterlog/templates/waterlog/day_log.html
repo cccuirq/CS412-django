@@ -1,0 +1,36 @@
+{% extends 'waterlog/base.html' %}
+
+{% block content %}
+<div class="water-log-container">
+<h1>Water Log for {{ selected_date|date:"F j, Y" }}</h1>
+
+{% if day_logs %}
+    <table class="water-log-table">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Amount</th>
+                <th>Unit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in day_logs %}
+            <tr>
+                <td>{{ log.timestamp|time:"g:i A" }}</td>
+                <td>{{ log.amount_consumed|floatformat:1 }}</td>
+                <td>{{ log.water_type }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+<p class="no-logs">No water logs found for this month.</p>
+{% endif %}
+<div class="water-goal-status">
+    <h3 class="total-water-consumed {% if goal_met %}goal-met-message{% else %}goal-not-met-message{% endif %}">
+        Total Water Consumed: {{ total_ml }} ml
+    </h3>
+</div>
+<a href="{% url 'daily_logs' %}" class="cta-button">Back to All Daily Logs</a>
+</div>
+{% endblock %}
