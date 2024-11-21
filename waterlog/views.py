@@ -124,20 +124,21 @@ class RegistrationView(CreateView):
     def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         if self.request.POST:
 
-            print(f'self.request.POST={self.request.POST}')
             form = UserCreationForm(self.request.POST)
             if not form.is_valid():
-                print(f'form_erroes={form.errors}')
                 return super().dispatch(*args, **kwargs)
             
             user = form.save()
-            print(f"RegistrationView.dispatch: created user {user}")
             login(self.request, user)
-            print(f'RegistrationView.dispatch, user {user} is logged in.')
 
             return redirect(reverse('create_profile'))
 
         return super().dispatch(request, *args, **kwargs)
+    
+    def form_invalid(self, form):
+        # Optional: Log errors or display a message in debug mode
+        print(f'Form errors: {form.errors}')
+        return super().form_invalid(form)
     
 class ShowMyProfileView(LoginRequiredMixin , DetailView):
     model = WProfile
