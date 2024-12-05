@@ -1,0 +1,30 @@
+{% extends 'waterlog/base.html' %}
+
+{% block content %}
+<h1>Unread Notifications</h1>
+{% if notifications %}
+    <form method="post" action="{% url 'mark_notifications_read' %}" class="notification-form">
+        {% csrf_token %}
+        {% for notification in notifications %}
+            <div class="notification-entry">
+                <div class="notification-header">
+                    <img src="{{notification.sender.profile_img.url }}" alt="{{ profileMe.user_name }}'s profile picture" class="notification-pic">
+                    <strong>{{ notification.sender.user_name }}</strong>
+                </div>
+                <div class="notification-content">
+                    <p class="notification-message">"{{ notification.message }}"</p>
+                    <p class="notification-timestamp">{{ notification.timestamp|date:"M d, Y H:i" }}</p>
+                    <input type="checkbox" name="notification_ids" value="{{ notification.id }}">
+                    <label for="notification_1" class="click-for-read">Click for Read</label>
+                </div>                
+            </div>
+        {% endfor %}
+        <div class="form-actions">
+            <input type="submit" value="Mark as read!" class="btn-primary">
+        </div>
+    </form>
+{% else %}
+    <p class="no-notifications">No unread notifications found.</p>
+{% endif %}
+<a href="{% url 'show_all_notifications' %}" class="cta-button">All Notifications</a>
+{% endblock %}

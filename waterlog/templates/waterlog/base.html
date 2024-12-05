@@ -10,6 +10,13 @@
         <a href="{% url 'show_today_log' %}">Today's Log</a>
         <a href="{% url 'daily_logs' %}">All logs</a>
         <a href="{% url 'friends_log' %}">Friends log</a>
+        <a href="{% url 'statistics' %}">Statistics</a>
+        <a href="{% url 'unread_notifications' %}" class="notification-link">
+            Notification
+            {% if unread_notifications_count > 0 %}
+                <span class="notification-badge">{{ unread_notifications_count }}</span>
+            {% endif %}
+        </a>
         <div class="user-dropdown" tabindex="0">
             <button class="user-button" aria-haspopup="true" aria-expanded="false">
                 {{ request.user.username|default:"User" }}

@@ -7,7 +7,7 @@ from django.contrib.auth import login
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-from .forms import AddWaterLogForm, CreatProfileForm
+from .forms import AddWaterLogForm, CreatProfileForm, NotificationReadForm
 from django.http import Http404
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -16,9 +16,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpRequest
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render, redirect
-from django.db.models.functions import TruncDate
-from django.db.models import Sum
-from datetime import datetime
+from django.db.models.functions import TruncDate, TruncMonth
+from django.db.models import Sum, Avg, Max, F, Count, FloatField
+from datetime import datetime,timezone
+from django.http import HttpResponseRedirect
+from django.utils.timezone import localtime
+import plotly
+import plotly.graph_objs as go
 # Create your views here.
 class ShowTodayWaterView(LoginRequiredMixin, DetailView):
     model = WProfile
@@ -34,7 +38,7 @@ class ShowTodayWaterView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Get today's date in the correct format
-        now = timezone.localtime()
+        now = localtime()
         start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
         end_of_day = start_of_day + timedelta(days=1)
 
@@ -42,6 +46,7 @@ class ShowTodayWaterView(LoginRequiredMixin, DetailView):
             timestamp__gte=start_of_day,
             timestamp__lt=end_of_day
         )
+        # print(today_logs[0].timestamp)
         context['today_water_logs'] = today_logs
 
         total_ml = 0
@@ -278,7 +283,7 @@ class ShowFriendsLogView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         user_profile = self.get_object()
 
-        now = timezone.localtime()
+        now = localtime()
         start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
         end_of_day = start_of_day + timedelta(days=1)
 
@@ -303,6 +308,7 @@ class ShowFriendsLogView(LoginRequiredMixin, DetailView):
             
             progress = (total_ml / friend.Goal) * 100 if friend.Goal else 0
             friends_logs.append({
+                'id': friend.id,
                 'name': friend.user_name,
                 'total_ml': total_ml,
                 'goal': friend.Goal,
@@ -343,3 +349,232 @@ class AddFriendsView(LoginRequiredMixin, TemplateView):
 
             friend.objects.create(wprofile1=user_profile, wprofile2=friend_profile)
         return redirect('add_friends')  # Redirect to the same page
+
+class MonthlyStatsView(LoginRequiredMixin, TemplateView):
+    template_name = 'waterlog/statistics.html'
+    model = WaterLog
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_profile = get_object_or_404(WProfile, waterUser=self.request.user)
+        
+        if not user_profile:
+            context['error'] = "User profile not found."
+            return context
+        
+        current_date = localtime()
+
+        year = self.kwargs.get('year', current_date.year)
+        month = self.kwargs.get('month', current_date.month)
+
+        start_of_month = datetime(year, month, 1, tzinfo=timezone.utc)
+        end_of_month = (start_of_month + timedelta(days=32)).replace(day=1)
+
+        monthly_logs = WaterLog.objects.filter(
+            wprofile=user_profile,
+            timestamp__gte=start_of_month,
+            timestamp__lt=end_of_month
+        )
+
+        unit_conversion = {
+            'ml': 1,
+            'L': 1000,
+            'Cup': 250,
+            'Bottle': 500,
+            'Can': 330,
+        }
+
+        daily_totals = {}
+        for log in monthly_logs:
+            log_local_time = localtime(log.timestamp)
+            log_date = log_local_time.date()
+            log_amount_ml = log.amount_consumed * unit_conversion.get(log.water_type, 1)
+            if log_date in daily_totals:
+                daily_totals[log_date] += log_amount_ml
+            else:
+                daily_totals[log_date] = log_amount_ml
+
+        sorted_dates = sorted(daily_totals.keys())
+        sorted_totals = [daily_totals[date] for date in sorted_dates]
+
+        #####################################################################
+        fig = go.Figure()
+        fig.add_trace(
+            go.Scatter(
+                x=sorted_dates,
+                y=sorted_totals,
+                mode="lines+markers",
+                name="Water Log (ml)",
+                line=dict(color="blue"),
+                marker=dict(size=8),
+            )
+        )
+        fig.update_layout(
+            title="Current Month's Daily Water Log (ml)",
+            xaxis_title="Date",
+            yaxis_title="Total Water Intake (ml)",
+            xaxis=dict(
+                tickformat="%d %b",
+                title="Days in Month",
+            ),
+            yaxis=dict(
+                title="Water Intake (ml)",
+                tickformat=",.0f",
+            ),
+            template="plotly_white",
+        )
+
+        graph_div_b = plotly.offline.plot(
+            fig,
+            auto_open=False,
+            output_type="div"
+        )
+
+        context['graph_div_b'] = graph_div_b
+        ###########################################################
+        fig = go.Figure()
+
+        fig.add_trace(
+            go.Scatter(
+                x=sorted_dates,
+                y=sorted_totals,
+                mode="markers",
+                name="Actual Intake (ml)",
+                marker=dict(size=10, color="blue", symbol="circle"),
+            )
+        )
+
+        fig.add_trace(
+            go.Scatter(
+                x=sorted_dates,
+                y=[user_profile.Goal] * len(sorted_dates),
+                mode="lines",
+                name="Daily Goal (ml)",
+                line=dict(color="red", dash="dash"),
+            )
+        )
+
+        fig.update_layout(
+            title="Goal vs. Actual Daily Water Intake",
+            xaxis_title="Date",
+            yaxis_title="Water Intake (ml)",
+            xaxis=dict(
+                tickformat="%d %b",
+                title="Days in Month",
+            ),
+            yaxis=dict(
+                title="Water Intake (ml)",
+                tickformat=",.0f",
+            ),
+            template="plotly_white",
+            legend=dict(
+                x=0.5, y=-0.2,
+                xanchor='center',
+                orientation="h"
+            ),
+        )
+        graph_div_scatter = plotly.offline.plot(
+            fig,
+            auto_open=False,
+            output_type="div"
+        )
+
+        context['graph_div_scatter'] = graph_div_scatter
+
+        ########################################################################
+        months_with_logs = (
+            WaterLog.objects.filter(wprofile=user_profile)
+            .annotate(month=TruncMonth('timestamp'))
+            .values('month')
+            .annotate(log_count=Count('id'))
+            .order_by('-month')
+        )
+        past_months = [(entry['month'].year, entry['month'].month) for entry in months_with_logs]
+        context['past_months'] = past_months
+
+        total_intake_ml = sum(sorted_totals)
+        average_daily_intake = total_intake_ml / len(sorted_totals) if sorted_totals else 0
+        max_daily_intake = max(sorted_totals, default=0)
+        goal_met_days = sum(1 for total in sorted_totals if total >= user_profile.Goal)
+        
+        context['user_name'] = user_profile.user_name
+        context.update({
+            'year': year,
+            'month': month,
+            'total_intake_ml': total_intake_ml,
+            'average_daily_intake': average_daily_intake,
+            'max_daily_intake': max_daily_intake,
+            'goal_met_days': goal_met_days,
+        })
+
+        return context
+
+class CreateNotificationView(LoginRequiredMixin, CreateView):
+    model = Notification
+    fields = ['message']
+    template_name = 'waterlog/create_notification.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        friend_id = self.kwargs.get('friend_id')
+        friend_profile = get_object_or_404(WProfile, id=friend_id)
+        context['object'] = friend_profile  # Provide the friend's profile
+        return context
+
+    def form_valid(self, form):
+        friend_id = self.kwargs.get('friend_id')
+        friend_profile = get_object_or_404(WProfile, id=friend_id)
+        sender_profile = get_object_or_404(WProfile, waterUser=self.request.user)
+
+        form.instance.wprofile = friend_profile
+        form.instance.sender = sender_profile  # Set the sender
+        form.instance.timestamp = localtime()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # Redirect to the friends log after sending the notification
+        return reverse('friends_log')
+
+    
+class ShowUnreadNotificationsView(LoginRequiredMixin, ListView):
+    model = Notification
+    template_name = 'waterlog/unread_notifications.html'
+    context_object_name = 'notifications'
+
+    def get_queryset(self):
+        user_profile = get_object_or_404(WProfile, waterUser=self.request.user)
+        return Notification.objects.filter(wprofile=user_profile, read=False).order_by('-timestamp')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_profile = get_object_or_404(WProfile, waterUser=self.request.user)
+
+        notifications = Notification.objects.filter(
+            wprofile=user_profile, read=False
+        ).select_related('sender').order_by('-timestamp')
+
+        context['notifications'] = notifications
+        return context
+
+class MarkNotificationsReadView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user_profile = get_object_or_404(WProfile, waterUser=request.user)
+        form = NotificationReadForm(request.POST, user_profile=user_profile)
+        if form.is_valid():
+            notifications = form.cleaned_data['notification_ids']
+            # Mark the selected notifications as read
+            notifications.update(read=True)
+        return HttpResponseRedirect(reverse('unread_notifications'))
+
+class ShowAllNotificationsView(LoginRequiredMixin, TemplateView):
+    template_name = "waterlog/show_all_notifications.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_profile = get_object_or_404(WProfile, waterUser=self.request.user)
+
+        # Fetch all notifications for the logged-in user
+        all_notifications = Notification.objects.filter(wprofile=user_profile).order_by('-timestamp')
+
+        context['all_notifications'] = all_notifications
+        return context

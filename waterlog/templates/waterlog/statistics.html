@@ -1,0 +1,43 @@
+{% extends 'waterlog/base.html' %}
+
+{% block content %}
+<h1>{{ user_name }}'s Monthly Statistics in {{ year }}</h1>
+
+<div class="monthly-stats-container">
+    <h3 class="stats-title">Monthly Statistics for {{ month }}/{{ year }}</h3>
+    <div class="stats-card">
+        <div class="stats-row">
+            <span class="stats-label">Total Water Intake:</span>
+            <span class="stats-value">{{ total_intake_ml }} ml</span>
+        </div>
+        <div class="stats-row">
+            <span class="stats-label">Average Daily Intake:</span>
+            <span class="stats-value">{{ average_daily_intake }} ml</span>
+        </div>
+        <div class="stats-row">
+            <span class="stats-label">Maximum Daily Intake:</span>
+            <span class="stats-value">{{ max_daily_intake }} ml</span>
+        </div>
+        <div class="stats-row">
+            <span class="stats-label">Days Goal Met:</span>
+            <span class="stats-value">{{ goal_met_days }} days</span>
+        </div>
+    </div>
+</div>
+
+<div class="card-container">
+    <!-- <div class="card"> -->
+        {{ graph_div_b|safe }}
+        {{ graph_div_scatter|safe }}
+    <!-- </div> -->
+</div>
+
+<h3>Past Months</h3>
+<div class="daily-log-container">
+    {% for year, month in past_months %}
+        <a href="{% url 'statistics' year=year month=month %}"  class= 'daily-log-block goal-normal'>{{ year }}, {{ month }}</a><br>
+    {% endfor %}
+</div>
+
+<a href="{% url 'show_today_log' %}" class="cta-button">Back to Today's Log</a>
+{% endblock %}

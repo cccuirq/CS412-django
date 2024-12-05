@@ -51,9 +51,10 @@ class friend(models.Model):
     
 class Notification(models.Model):
     wprofile = models.ForeignKey("WProfile", on_delete=models.CASCADE)
+    sender = models.ForeignKey("WProfile", on_delete=models.CASCADE, related_name="sent_notifications", null=True, blank=True)
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Notification for {self.wprofile.user_name}: {self.message}"
+        return f"Notification for {self.wprofile.user_name} from {self.sender.user_name if self.sender else 'Unknown'}: {self.message}"

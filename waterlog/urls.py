@@ -18,6 +18,12 @@ urlpatterns = [
     path(r'logs/<str:date>/', views.ShowDayLogView.as_view(), name='day_log'),
     path(r'friends/', views.ShowFriendsLogView.as_view(), name='friends_log'),
     path(r'friends/add-friends/', views.AddFriendsView.as_view(), name='add_friends'),
+    path(r'statistics/', views.MonthlyStatsView.as_view(), name='statistics'),
+    path(r'statistics/<int:year>/<int:month>/', views.MonthlyStatsView.as_view(), name='statistics'),
+    path(r'send_notification/<int:friend_id>/', views.CreateNotificationView.as_view(), name='create_notification'),
+    path(r'notifications/unread/', views.ShowUnreadNotificationsView.as_view(), name='unread_notifications'),
+    path(r'notifications/mark_read/', views.MarkNotificationsReadView.as_view(), name='mark_notifications_read'),
+    path(r"notifications/", views.ShowAllNotificationsView.as_view(), name="show_all_notifications"),
 
     path('login/', auth_views.LoginView.as_view(template_name='waterlog/login.html'), name="login"),
     path('logout/', auth_views.LogoutView.as_view(template_name='waterlog/log_out.html'), name="logout"),

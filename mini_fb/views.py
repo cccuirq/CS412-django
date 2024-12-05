@@ -262,3 +262,4 @@ class ShowNewsFeedView(LoginRequiredMixin, DetailView):
             return profile
         else:
             raise Http404("Profile ID not provided or invalid")
+        

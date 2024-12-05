@@ -11,6 +11,7 @@
                     <th>Total Water Consumed Today</th>
                     <th>Their Goal</th>
                     <th>Progress</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,6 +24,9 @@
                             <div class="progress-bar-container">
                                 <div class="progress-bar" style="width: {{ friend_log.progress }}%;"></div>
                             </div>
+                        </td>
+                        <td>
+                            <a href="{% url 'create_notification' friend_log.id %}">Send Message</a>
                         </td>
                     </tr>
                 {% endfor %}
