@@ -26,6 +26,7 @@
                 <a href="{% url 'my_profile' %}">My profile</a>
                 <a href="{% url 'update_profile' %}">Update profile</a>
                 <a href="{% url 'add_friends' %}">Add friends</a>
+                <a href="{% url 'show_all_notifications' %}">Notifications</a>
                 <form method="POST" action="{% url 'logout' %}" class="logout-form">
                     {% csrf_token %}
                     <button type="submit">Logout</button>
